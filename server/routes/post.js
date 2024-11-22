@@ -6,7 +6,7 @@ import { likePost, unlikePost, getLikes, getLikeStatus } from "../controllers/li
 const router = express.Router();
 
 // Routes untuk postingan
-router.post("/", verifyToken, createPost);
+router.post("/create", verifyToken, createPost);
 router.get("/", getPosts);
 router.delete("/:id", verifyToken, deletePost);
 
