@@ -57,7 +57,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       final result = await cloudinary.uploader().upload(
         File(imagePath),
         params: UploadParams(
-          publicId: 'profile',
+          publicId: _nickname,
           uniqueFilename: true,
           overwrite: true
         )

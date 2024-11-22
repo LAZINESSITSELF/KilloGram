@@ -14,7 +14,7 @@ class Layout extends StatefulWidget {
 
 class _LayoutState extends State<Layout> {
   final AuthController _authController = AuthController();
-  int _selectedIndex = 0;
+  int _selectedIndex = 0; // Menetapkan tab pertama sebagai Home
   late Future<bool> _sessionCheck; // Tambahkan Future untuk pengecekan sesi
   final List<Widget> _pages = [
     const HomePage(),

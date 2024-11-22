@@ -4,11 +4,10 @@ import { verifyToken } from "../middleware/auth.js";
 
 const router = express.Router();
 
+// auth & user
 router.post("/register", register);
 router.post("/login", login);
-
 router.put("/profile", verifyToken, updateProfile);
-
 router.get("/checkSession", verifyToken, checkSession);
 router.get("/user", verifyToken, getUserData);
 

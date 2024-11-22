@@ -65,8 +65,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     // Avatar + Username Section
                     CircleAvatar(
                       radius: 80,
-                      backgroundImage: NetworkImage(userData['profilePict'] ??
-                          'https://via.placeholder.com/150'),
+                      backgroundImage: userData['profilePict'].isNotEmpty ? NetworkImage(userData['profilePict']) : const AssetImage(
+                                'assets/images/default/default-profile.png'),
                     ),
                     SizedBox(height: 16),
                     Text(

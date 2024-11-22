@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'KilloGram',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const SplashScreen(), // Tambahkan SplashScreen
+      home: const SplashScreen(), // SplashScreen untuk pengecekan session
     );
   }
 }
@@ -34,17 +34,19 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _checkSession();
+    _checkSession();  // Mengecek session saat aplikasi pertama kali dibuka
   }
 
   Future<void> _checkSession() async {
     var result = await _authController.checkSession();
     if (result['success']) {
+      // Jika session valid, arahkan ke Layout
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const Layout()),
+        MaterialPageRoute(builder: (context) => const Layout()),  // Halaman Layout dengan TabBar
       );
     } else {
+      // Jika session tidak valid, arahkan ke halaman login
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => LoginPage()),
@@ -56,9 +58,8 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(), // Tampilan loading sementara
+        child: CircularProgressIndicator(),  // Tampilan loading saat pengecekan session
       ),
     );
   }
 }
-
