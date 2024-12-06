@@ -18,10 +18,21 @@ class _PostPageState extends State<PostPage> {
   final TextEditingController _textController = TextEditingController();
   File? _image;
   final ImagePicker _picker = ImagePicker();
-  bool _isLoading = false; // Flag untuk menandakan apakah loading sedang berlangsung
+  bool _isLoading = false;
 
-  // Fungsi untuk memilih gambar/video
-  Future<void> _pickImage() async {
+  // Fungsi untuk memilih gambar dari kamera
+  Future<void> _pickImageFromCamera() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
+
+  // Fungsi untuk memilih gambar dari galeri
+  Future<void> _pickImageFromGallery() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
@@ -29,6 +40,38 @@ class _PostPageState extends State<PostPage> {
         _image = File(pickedFile.path);
       });
     }
+  }
+
+  // Fungsi untuk memilih gambar dengan opsi kamera atau galeri
+  Future<void> _pickImage() async {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Take a Photo'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _pickImageFromCamera();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Choose from Gallery'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _pickImageFromGallery();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   // Fungsi untuk mengunggah gambar ke Cloudinary
@@ -41,16 +84,16 @@ class _PostPageState extends State<PostPage> {
       );
 
       final result = await cloudinary.uploader().upload(
-        File(imagePath),
-        params: UploadParams(
-          publicId: publicId,
-          uniqueFilename: true,
-          overwrite: true,
-        ),
-      );
+            File(imagePath),
+            params: UploadParams(
+              publicId: publicId,
+              uniqueFilename: true,
+              overwrite: true,
+            ),
+          );
 
       if (result?.data?.publicId != null) {
-        return result?.data?.secureUrl; // Mengembalikan URL gambar yang diunggah
+        return result?.data?.secureUrl;
       } else {
         print('Error uploading image: ${result?.error?.message}');
         return null;

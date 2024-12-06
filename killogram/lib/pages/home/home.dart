@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:killogram/components/commentModal.dart';
 import 'package:killogram/models/post.dart';
 import 'package:killogram/pages/profile/favorite.dart';
 import 'package:killogram/services/postController.dart';
@@ -25,7 +26,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     futurePosts = PostService().fetchPosts();
     channel = WebSocketChannel.connect(
-        Uri.parse('ws://192.168.4.110:5000')); // Ganti dengan server Anda
+        Uri.parse('ws://192.168.4.108:5000')); // Ganti dengan server Anda
 
     // Inisialisasi notifikasi
     _initializeNotifications();
@@ -102,6 +103,19 @@ class _HomePageState extends State<HomePage> {
           ),
           insetPadding: EdgeInsets.all(0),
         );
+      },
+    );
+  }
+
+  void _showComments(BuildContext context, String postId) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return CommentModal(postId: postId);
       },
     );
   }
@@ -275,7 +289,9 @@ class _HomePageState extends State<HomePage> {
                             SizedBox(width: 20),
                             IconButton(
                               icon: Icon(Icons.comment),
-                              onPressed: () {},
+                              onPressed: () {
+                                _showComments(context, post.postid);
+                              },
                             ),
                             Text('${post.commentCount} Comments'),
                             Spacer(), // Mendorong tombol save ke sisi kanan
