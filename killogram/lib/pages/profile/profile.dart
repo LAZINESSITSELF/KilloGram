@@ -65,9 +65,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     // Avatar + Username Section
                     CircleAvatar(
                       radius: 80,
-                      backgroundImage: userData['profilePict'].isNotEmpty ? NetworkImage(userData['profilePict']) : const AssetImage(
-                                'assets/images/default/default-profile.png'),
+                      backgroundImage: (userData['profilePict'] != null &&
+                              userData['profilePict'].isNotEmpty)
+                          ? NetworkImage(userData['profilePict'])
+                          : const AssetImage(
+                                  'assets/images/default/default-profile.png')
+                              as ImageProvider,
                     ),
+
                     SizedBox(height: 16),
                     Text(
                       userData['nickname'] ?? 'Nickname Not Found',

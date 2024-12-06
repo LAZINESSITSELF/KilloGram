@@ -1,13 +1,12 @@
 import Post from "../models/Post.js";
 
-// Membuat postingan baru
 export const createPost = async (req, res) => {
   try {
     const { urlMedia, textContent } = req.body;
     const newPost = new Post({
       urlMedia,
       textContent,
-      postBy: req.user.id, // Ambil dari token user yang login
+      postBy: req.user.id,
     });
 
     await newPost.save();
@@ -18,7 +17,6 @@ export const createPost = async (req, res) => {
   }
 };
 
-// Mendapatkan semua postingan
 export const getPosts = async (req, res) => {
   try {
     const posts = await Post.find().populate("postBy", "nickname profilePict"); // Mengambil data user
@@ -28,14 +26,12 @@ export const getPosts = async (req, res) => {
   }
 };
 
-// Menghapus postingan
 export const deletePost = async (req, res) => {
   try {
     const { id } = req.params;
     const post = await Post.findById(id);
     if (!post) return res.status(404).json({ message: "Post not found" });
 
-    // Pastikan user yang menghapus adalah pemilik postingan
     if (post.postBy.toString() !== req.user.id) {
       return res.status(403).json({ message: "Unauthorized action" });
     }
