@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:killogram/pages/login.dart';
 import 'package:killogram/pages/profile/edit.dart';
 import 'package:killogram/services/authController.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Untuk menyimpan dan menghapus sesi
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);

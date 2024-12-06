@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:killogram/models/post.dart';
+import 'package:killogram/pages/profile/favorite.dart';
 import 'package:killogram/services/postController.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -33,6 +34,18 @@ class _HomePageState extends State<HomePage> {
     channel.stream.listen((message) {
       // Logika untuk menangani notifikasi
       _showNotification('New Like', 'Someone liked your post!');
+    });
+  }
+
+  List<Post> favoritePosts = [];
+
+  void toggleFavorite(Post post) {
+    setState(() {
+      if (favoritePosts.contains(post)) {
+        favoritePosts.remove(post);
+      } else {
+        favoritePosts.add(post);
+      }
     });
   }
 
@@ -102,7 +115,25 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('KilloGram')),
+      appBar: AppBar(
+        title: Text('KilloGram'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.favorite),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FavoritePage(
+                    favoritePosts: favoritePosts,
+                    toggleFavorite: toggleFavorite,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       body: FutureBuilder<List<Post>>(
         future: futurePosts,
         builder: (context, snapshot) {
@@ -243,8 +274,24 @@ class _HomePageState extends State<HomePage> {
                             Text('${post.likeCount}'),
                             SizedBox(width: 20),
                             IconButton(
-                                icon: Icon(Icons.comment), onPressed: () {}),
+                              icon: Icon(Icons.comment),
+                              onPressed: () {},
+                            ),
                             Text('${post.commentCount} Comments'),
+                            Spacer(), // Mendorong tombol save ke sisi kanan
+                            IconButton(
+                              icon: Icon(
+                                favoritePosts.contains(post)
+                                    ? Icons.bookmark
+                                    : Icons.bookmark_border,
+                                color: favoritePosts.contains(post)
+                                    ? Colors.blue
+                                    : null,
+                              ),
+                              onPressed: () {
+                                toggleFavorite(post);
+                              },
+                            ),
                           ],
                         ),
                       ],

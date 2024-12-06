@@ -5,6 +5,7 @@ import { Server } from "socket.io";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
 import postRoutes from "./routes/post.js";
+import commentRoutes from "./routes/comment.js"
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use(express.json());
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/comment", commentRoutes)
 
 io.on("connection", (socket) => {
   console.log("A user connected");
