@@ -35,11 +35,15 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF010826), // Dark blue background color
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset('assets/images/logo/kilogram_icon.png',
+                height: 80), // Logo
+            SizedBox(height: 20),
             CustomTextField(
               controller: emailController,
               placeholder: 'Email',
@@ -53,7 +57,7 @@ class LoginPage extends StatelessWidget {
             SizedBox(height: 20),
             CustomButton(
               label: 'Login',
-              onPressed: () => _login(context),  // Panggil fungsi login di sini
+              onPressed: () => _login(context),
             ),
             TextButton(
               onPressed: () {
@@ -63,7 +67,11 @@ class LoginPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => RegisterPage()),
                 );
               },
-              child: Text('Belum punya akun? Daftar'),
+              child: Text(
+                'Belum punya akun? Daftar',
+                style: TextStyle(
+                    color: Color(0xFFFE8E06)), // Orange color for the text
+              ),
             ),
           ],
         ),

@@ -81,7 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed: ${responseData['message']}')),
         );
-      } else{
+      } else {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${responseData['message']}')),
@@ -97,12 +97,19 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Register')),
+      backgroundColor: Color(0xFF010826), // Dark blue background color
+      appBar: AppBar(
+        title: Text('Register'),
+        backgroundColor: Color(0xFF0E0D19), // Dark background for AppBar
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset('assets/images/logo/kilogram_icon.png',
+                height: 80), // Logo
+            SizedBox(height: 20),
             CustomTextField(
               controller: usernameController,
               placeholder: 'Username',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:killogram/pages/login.dart';
+import 'package:killogram/pages/profile/curency.dart';
 import 'package:killogram/pages/profile/edit.dart';
 import 'package:killogram/services/authController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -52,6 +53,20 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text('Profile'),
         backgroundColor: Colors.white,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.currency_exchange),
+            onPressed: () {
+              // Navigasi ke halaman konversi mata uang
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CurrencyConversionPage(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: userData.isEmpty
           ? Center(
